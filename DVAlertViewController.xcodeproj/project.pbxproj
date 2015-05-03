@@ -8,11 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		A33F92471AC7F68100EAD31C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F92461AC7F68100EAD31C /* AppDelegate.swift */; };
-		A33F92491AC7F68100EAD31C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F92481AC7F68100EAD31C /* ViewController.swift */; };
-		A33F924C1AC7F68100EAD31C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A33F924A1AC7F68100EAD31C /* Main.storyboard */; };
 		A33F924E1AC7F68100EAD31C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A33F924D1AC7F68100EAD31C /* Images.xcassets */; };
 		A33F92511AC7F68100EAD31C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F924F1AC7F68100EAD31C /* LaunchScreen.xib */; };
 		A33F925D1AC7F68200EAD31C /* DVAlertViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F925C1AC7F68200EAD31C /* DVAlertViewControllerTests.swift */; };
+		A33F926A1AC7F70000EAD31C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F92681AC7F70000EAD31C /* ViewController.swift */; };
+		A33F926B1AC7F70000EAD31C /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A33F92691AC7F70000EAD31C /* ViewController.xib */; };
+		A33F926D1AC7F75000EAD31C /* DVAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33F926C1AC7F75000EAD31C /* DVAlertViewController.swift */; };
+		A3C602041AC9A07C00BCD004 /* OtherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C602021AC9A07C00BCD004 /* OtherViewController.swift */; };
+		A3C602051AC9A07C00BCD004 /* OtherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3C602031AC9A07C00BCD004 /* OtherViewController.xib */; };
+		A3C602071AC9A09600BCD004 /* background2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3C602061AC9A09600BCD004 /* background2.jpg */; };
+		A3CDF0731AC9139F0031FE52 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A3CDF0721AC9139F0031FE52 /* background.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,13 +34,18 @@
 		A33F92411AC7F68100EAD31C /* DVAlertViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DVAlertViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A33F92451AC7F68100EAD31C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A33F92461AC7F68100EAD31C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A33F92481AC7F68100EAD31C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		A33F924B1AC7F68100EAD31C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A33F924D1AC7F68100EAD31C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A33F92501AC7F68100EAD31C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		A33F92561AC7F68100EAD31C /* DVAlertViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DVAlertViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A33F925B1AC7F68100EAD31C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A33F925C1AC7F68200EAD31C /* DVAlertViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVAlertViewControllerTests.swift; sourceTree = "<group>"; };
+		A33F92681AC7F70000EAD31C /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A33F92691AC7F70000EAD31C /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		A33F926C1AC7F75000EAD31C /* DVAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DVAlertViewController.swift; sourceTree = "<group>"; };
+		A3C602021AC9A07C00BCD004 /* OtherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherViewController.swift; sourceTree = "<group>"; };
+		A3C602031AC9A07C00BCD004 /* OtherViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OtherViewController.xib; sourceTree = "<group>"; };
+		A3C602061AC9A09600BCD004 /* background2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background2.jpg; sourceTree = "<group>"; };
+		A3CDF0721AC9139F0031FE52 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +88,10 @@
 			isa = PBXGroup;
 			children = (
 				A33F92461AC7F68100EAD31C /* AppDelegate.swift */,
-				A33F92481AC7F68100EAD31C /* ViewController.swift */,
-				A33F924A1AC7F68100EAD31C /* Main.storyboard */,
+				A33F92661AC7F6DF00EAD31C /* Third Parties */,
+				A33F92671AC7F6EC00EAD31C /* Controller */,
+				A3CDF0721AC9139F0031FE52 /* background.jpg */,
+				A3C602061AC9A09600BCD004 /* background2.jpg */,
 				A33F924D1AC7F68100EAD31C /* Images.xcassets */,
 				A33F924F1AC7F68100EAD31C /* LaunchScreen.xib */,
 				A33F92441AC7F68100EAD31C /* Supporting Files */,
@@ -110,6 +122,25 @@
 				A33F925B1AC7F68100EAD31C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A33F92661AC7F6DF00EAD31C /* Third Parties */ = {
+			isa = PBXGroup;
+			children = (
+				A33F926C1AC7F75000EAD31C /* DVAlertViewController.swift */,
+			);
+			name = "Third Parties";
+			sourceTree = "<group>";
+		};
+		A33F92671AC7F6EC00EAD31C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A33F92681AC7F70000EAD31C /* ViewController.swift */,
+				A33F92691AC7F70000EAD31C /* ViewController.xib */,
+				A3C602021AC9A07C00BCD004 /* OtherViewController.swift */,
+				A3C602031AC9A07C00BCD004 /* OtherViewController.xib */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,8 +223,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A33F924C1AC7F68100EAD31C /* Main.storyboard in Resources */,
 				A33F92511AC7F68100EAD31C /* LaunchScreen.xib in Resources */,
+				A3C602071AC9A09600BCD004 /* background2.jpg in Resources */,
+				A3C602051AC9A07C00BCD004 /* OtherViewController.xib in Resources */,
+				A3CDF0731AC9139F0031FE52 /* background.jpg in Resources */,
+				A33F926B1AC7F70000EAD31C /* ViewController.xib in Resources */,
 				A33F924E1AC7F68100EAD31C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,7 +246,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A33F92491AC7F68100EAD31C /* ViewController.swift in Sources */,
+				A33F926D1AC7F75000EAD31C /* DVAlertViewController.swift in Sources */,
+				A3C602041AC9A07C00BCD004 /* OtherViewController.swift in Sources */,
+				A33F926A1AC7F70000EAD31C /* ViewController.swift in Sources */,
 				A33F92471AC7F68100EAD31C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,14 +272,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		A33F924A1AC7F68100EAD31C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A33F924B1AC7F68100EAD31C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		A33F924F1AC7F68100EAD31C /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -407,6 +435,7 @@
 				A33F92621AC7F68200EAD31C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A33F92631AC7F68200EAD31C /* Build configuration list for PBXNativeTarget "DVAlertViewControllerTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +444,7 @@
 				A33F92651AC7F68200EAD31C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
