@@ -17,7 +17,7 @@ class DVAlertViewButton: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.layer.cornerRadius = 5.0
+        self.layer.cornerRadius = 3.0
         self.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
     }
 }
@@ -79,8 +79,8 @@ class DVAlertViewController: UIViewController {
     let noticeColor = UIColor(red: 0.910, green: 0.431, blue: 0.537, alpha: 1.0)
     let normalColor = UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1.0)
     
-    let alertBodyViewBorderWidth: CGFloat = 0
-    let alertBodyViewCornerRadius: CGFloat = 5
+    let alertBodyViewBorderWidth: CGFloat = 0.0
+    let alertBodyViewCornerRadius: CGFloat = 5.0
     
     var alertTitle: String? {
         set(value) { alertTitleLabel.text = value }
@@ -95,7 +95,7 @@ class DVAlertViewController: UIViewController {
         get { return self.alertSubTitle }
     }
     
-    var duration: NSTimeInterval? = 0.6
+    var duration: NSTimeInterval? = 0.7
     
     /////////////////// Setting values ///////////////////
     
@@ -377,8 +377,8 @@ class DVAlertViewController: UIViewController {
             target!.view.addSubview(self.view)
             self.didMoveToParentViewController(target!)
             target!.view.bringSubviewToFront(self.view)
-            
         }
+        
         if !existedCancelButton {
             if alertViewStyle == nil { alertViewStyle = .Normal }
             addButtonWithTitle(title: "Cancel", buttonType: .Cancel, alertViewStyle: alertViewStyle!)
@@ -515,6 +515,15 @@ class DVAlertViewController: UIViewController {
     }
     
     // MARK: - Supporting methods
+    
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        if toInterfaceOrientation.isLandscape {
+            
+        } else if toInterfaceOrientation.isPortrait {
+            
+        }
+    }
+
     
 //    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
 //        if UIDevice.currentDevice().orientation.isLandscape.boolValue {

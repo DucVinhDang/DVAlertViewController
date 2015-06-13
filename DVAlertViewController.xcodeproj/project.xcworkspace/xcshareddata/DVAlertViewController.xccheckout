@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AEB1A6F2-8CE7-4C13-93B1-B35EEB04F79D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DVAlertViewController</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1E4FFA6DD8CF07FCEEE25CA5D327D94836B6F743</key>
+		<string>https://github.com/DucVinhDang/DVAlertViewController.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DVAlertViewController.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1E4FFA6DD8CF07FCEEE25CA5D327D94836B6F743</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/DucVinhDang/DVAlertViewController.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>1E4FFA6DD8CF07FCEEE25CA5D327D94836B6F743</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1E4FFA6DD8CF07FCEEE25CA5D327D94836B6F743</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DVAlertViewController</string>
+		</dict>
+	</array>
+</dict>
+</plist>
