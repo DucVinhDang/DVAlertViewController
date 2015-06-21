@@ -14,11 +14,19 @@ class DVAlertViewButton: UIButton {
     }
     var alertViewButtonType = DVAlertViewButtonType.Normal
     var title: String?
+    var shadowColor: UIColor?
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.layer.cornerRadius = 3.0
+        self.layer.cornerRadius = 0.0
         self.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
+    }
+    
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        var path = UIBezierPath(rect: CGRect(x: 0, y: self.frame.height-6, width: self.frame.width, height: 6))
+        shadowColor!.setFill()
+        path.fill()
     }
 }
 
@@ -44,8 +52,11 @@ class DVAlertViewController: UIViewController {
     var deviceHeight = UIScreen.mainScreen().bounds.height
     var alertBodyViewWidth: CGFloat = 250
     var alertBodyViewHeight: CGFloat = 210
-    let alertStyleBodyViewWidth: CGFloat = 225
-    let alertStyleBodyViewHeight: CGFloat = 45
+//    let alertStyleBodyViewWidth: CGFloat = 225
+//    let alertStyleBodyViewHeight: CGFloat = 45
+    let alertStyleBodyViewWidth: CGFloat = 0
+    let alertStyleBodyViewHeight: CGFloat = 0
+
     let alertTitleWidth: CGFloat = 225
     let alertTitleHeight: CGFloat = 30
     var alertSubTitleWidth: CGFloat = 225
@@ -53,8 +64,11 @@ class DVAlertViewController: UIViewController {
     var alertButtonWidth: CGFloat = 234
     var alertButtonHeight: CGFloat = 35
     
-    let alertStyleBodyViewMarginTop: CGFloat = -14
-    let distanceAlertStyleBodyViewAndAlertTitleLabel: CGFloat = 10
+//    let alertStyleBodyViewMarginTop: CGFloat = -14
+//    let distanceAlertStyleBodyViewAndAlertTitleLabel: CGFloat = 10
+    let alertStyleBodyViewMarginTop: CGFloat = 0
+    let distanceAlertStyleBodyViewAndAlertTitleLabel: CGFloat = 15
+    
     let distanceAlertTitleLabelAndAlertSubTitleTextView: CGFloat = 10
     let distanceAlertSubTitleTextViewAndButton: CGFloat = 20
     let distanceButtonAndButton: CGFloat = 8
@@ -79,8 +93,15 @@ class DVAlertViewController: UIViewController {
     let noticeColor = UIColor(red: 0.910, green: 0.431, blue: 0.537, alpha: 1.0)
     let normalColor = UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1.0)
     
+    let shadowSuccessColor = UIColor(red: 0.569, green: 0.925, blue: 0.682, alpha: 1)
+    let shadowInfoColor = UIColor(red: 0.157, green: 0.576, blue: 0.839, alpha: 1)
+    let shadowWarningColor = UIColor(red: 0.941, green: 0.91, blue: 0.541, alpha: 1)
+    let shadowErrorColor = UIColor(red: 0.839, green: 0.165, blue: 0.165, alpha: 1)
+    let shadowNoticeColor = UIColor(red: 0.933, green: 0.537, blue: 0.537, alpha: 1)
+    let shadowNormalColor = UIColor(red: 0.157, green: 0.576, blue: 0.839, alpha: 1)
+    
     let alertBodyViewBorderWidth: CGFloat = 0.0
-    let alertBodyViewCornerRadius: CGFloat = 5.0
+    let alertBodyViewCornerRadius: CGFloat = 0.0
     
     var alertTitle: String? {
         set(value) { alertTitleLabel.text = value }
@@ -127,12 +148,12 @@ class DVAlertViewController: UIViewController {
     private func initAllViews() {
         setupView()
         setupAlertBodyView()
-        setupAlertStyleBodyView()
+        //setupAlertStyleBodyView()
         setupAlertTitleLabel()
         setupAlertSubTitleTextView()
         
         view.addSubview(alertBodyView)
-        alertBodyView.addSubview(alertStyleBodyView)
+        //alertBodyView.addSubview(alertStyleBodyView)
         alertBodyView.addSubview(alertTitleLabel)
         alertBodyView.addSubview(alertSubTitleTextView)
         
@@ -301,9 +322,7 @@ class DVAlertViewController: UIViewController {
     }
     
     func addButtonWithTitle(#title: String, buttonType: DVAlertViewButton.DVAlertViewButtonType, alertViewStyle: DVAlertViewStyle) {
-        
         if alertButtons.count >= maxNumberOfButtons { return }
-        
         var newButton = DVAlertViewButton()
         if buttonType == .Cancel {
             if !existedCancelButton {
@@ -363,11 +382,20 @@ class DVAlertViewController: UIViewController {
                 var lastButton = alertButtons[alertButtons.count-1] as DVAlertViewButton
                 lastButton.frame = CGRectMake((alertBodyViewWidth - alertButtonWidth)/2, lastButton.frame.origin.y, alertButtonWidth, alertButtonHeight)
             }
-            
-            var offsetValue = CGFloat(ceil(Double(alertButtons.count)/2))
-            var alertBodyViewNewHeight = (alertStyleBodyViewHeight + alertStyleBodyViewMarginTop) + distanceAlertStyleBodyViewAndAlertTitleLabel + alertTitleHeight + distanceAlertTitleLabelAndAlertSubTitleTextView + alertSubTitleHeight + distanceAlertSubTitleTextViewAndButton + (alertButtonHeight * offsetValue) + (distanceButtonAndButton * offsetValue) - alertBodyViewHeight
-            addNewValueToBodyViewHeightWithValue(alertBodyViewNewHeight)
         }
+        
+        var offsetValue: CGFloat = 0
+        if alertButtons.count % 2 == 0 {
+            offsetValue = CGFloat(alertButtons.count)/2
+        } else {
+            if alertButtons.count <= 3 {
+                offsetValue = CGFloat(alertButtons.count)
+            } else {
+                offsetValue = CGFloat(ceil(Double(alertButtons.count)/2))
+            }
+        }
+        var alertBodyViewNewHeight = (alertStyleBodyViewHeight + alertStyleBodyViewMarginTop) + distanceAlertStyleBodyViewAndAlertTitleLabel + alertTitleHeight + distanceAlertTitleLabelAndAlertSubTitleTextView + alertSubTitleHeight + distanceAlertSubTitleTextViewAndButton + (alertButtonHeight * offsetValue) + (distanceButtonAndButton * offsetValue) - alertBodyViewHeight
+        addNewValueToBodyViewHeightWithValue(alertBodyViewNewHeight)
     }
     
     func showAlert(#animate: Bool) {
@@ -464,29 +492,36 @@ class DVAlertViewController: UIViewController {
             self.alertViewStyle = .Success
             alertStyleBodyView.backgroundColor = successColor
             button.backgroundColor = successColor
+            button.shadowColor = shadowSuccessColor
         case .Info:
             self.alertViewStyle = .Info
             alertStyleBodyView.backgroundColor = infoColor
             button.backgroundColor = infoColor
+            button.shadowColor = shadowInfoColor
         case .Warning:
             self.alertViewStyle = .Warning
             alertStyleBodyView.backgroundColor = warningColor
             button.backgroundColor = warningColor
+            button.shadowColor = shadowWarningColor
         case .Error:
             self.alertViewStyle = .Error
             alertStyleBodyView.backgroundColor = errorColor
             button.backgroundColor = errorColor
+            button.shadowColor = shadowErrorColor
         case .Notice:
             self.alertViewStyle = .Notice
             alertStyleBodyView.backgroundColor = noticeColor
             button.backgroundColor = noticeColor
+            button.shadowColor = shadowNoticeColor
         case .Normal:
             self.alertViewStyle = .Normal
             alertStyleBodyView.backgroundColor = normalColor
             button.backgroundColor = normalColor
+            button.shadowColor = shadowNormalColor
         default:
             break
         }
+        button.setNeedsDisplay()
     }
     
     private func addNewValueToBodyViewHeightWithValue(value: CGFloat) {

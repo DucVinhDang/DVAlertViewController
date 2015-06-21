@@ -44,7 +44,7 @@ class ViewController: UIViewController, DVAlertViewControllerDelegate {
     
     @IBAction func showSuccessAction(sender: AnyObject) {
         var alert = DVAlertViewController()
-        alert.showAlertSuccess(target: self, delegate: self, title:"Wonderful", subTitle: "You have finished this event. Now you can send your result to all your friends.", duration: 0.7, cancelButtonTitle: "Cancel", otherButtonsTitles: ["Send Result", "Feedback", "Report", "Setting"], animate: true)
+        alert.showAlertSuccess(target: self, delegate: self, title:"Wonderful", subTitle: "You have finished this event. Now you can send your result to all your friends.", duration: 0.8, cancelButtonTitle: "Cancel", otherButtonsTitles: ["Send Result", "Feedback", "Report", "Setting"], animate: true)
     }
 
     @IBAction func showInfoAction(sender: AnyObject) {
@@ -55,7 +55,7 @@ class ViewController: UIViewController, DVAlertViewControllerDelegate {
 
     @IBAction func showWarningAction(sender: AnyObject) {
         var alert = DVAlertViewController()
-        alert.showAlertWarning(target: self, delegate: self, title:"Wonderful", subTitle: "You have finished this event. Now you can send your result to all your friends.", duration: 0.7, cancelButtonTitle: "Cancel", otherButtonsTitles: ["Send Result", "Feedback"], animate: true)
+        alert.showAlertWarning(target: self, delegate: self, title:"Wonderful", subTitle: "You have finished this event. Now you can send your result to all your friends.", duration: 0.8, cancelButtonTitle: "Cancel", otherButtonsTitles: ["Send Result", "Feedback"], animate: true)
     }
     
     @IBAction func showErrorAction(sender: AnyObject) {
