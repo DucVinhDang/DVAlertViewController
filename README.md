@@ -38,7 +38,7 @@ alert.showAlertNotice(target: self, delegate: self, title:"Wonderful", subTitle:
 alert.showAlertNormal(target: self, delegate: self, title:"Wonderful", subTitle: "You have finished this event. Now you can send your result to all your friends.", duration: 0.7, cancelButtonTitle: "Cancel", otherButtonsTitles: ["Send Result", "Feedback"], animate: true)
 ```
 
-Let's take a look at this code, there are something you may want to know:
+>Let's take a look at this code, there are something you may want to know:
 * target: The ViewController you want to display your alert.
 * delegate: The DVAlertViewDelegate, if you want to detect any states of DVAlertViewController, you need to use this.
 * title: Your alert's title.
@@ -47,3 +47,50 @@ Let's take a look at this code, there are something you may want to know:
 * cancelButtonTitle: The title of your cancel button.
 * otherButtonTitles: There is one title for each button, if you want more buttons, insert the button'titles to this array.
 * animate: The animation of the alert, if you want it, write true, conversely, write false.
+
+## DVAlertViewController Delegate
+As i said above, you use delegate to detect any states of DVAlertViewController, so i bring to you some functions:
+```
+    optional func dvAlertViewWillAppear(#dvAlertView: DVAlertViewController)
+    optional func dvAlertViewWillDisappear(#dvAlertView: DVAlertViewController)
+    optional func dvAlertViewDidAppear(#dvAlertView: DVAlertViewController)
+    optional func dvAlertViewDidDisappear(#dvAlertView: DVAlertViewController)
+    optional func dvAlertView(#dvAlertView: DVAlertViewController, didClickButtonAtIndex: Int)
+```
+
+As you see, it's just optional, so in your code, write any functions you want, for example:
+```
+func dvAlertView(dvAlertView: DVAlertViewController, didClickButtonAtIndex: Int) {
+        switch(didClickButtonAtIndex) {
+        case 0:
+            println("\(didClickButtonAtIndex) was clicked so this alert will be hided")
+        case 1:
+            println("\(didClickButtonAtIndex) was clicked again")
+        case 2:
+            println("\(didClickButtonAtIndex) was clicked three times")
+        case 3:
+            println("\(didClickButtonAtIndex) was clicked again and again")
+        case 4:
+            println("\(didClickButtonAtIndex) was clicked very hard")
+        default:
+            break
+        }
+    }
+    
+    func dvAlertViewWillAppear(#dvAlertView: DVAlertViewController) {
+        println("Will appear")
+    }
+    
+    func dvAlertViewDidAppear(#dvAlertView: DVAlertViewController) {
+        println("Did appear")
+    }
+    
+    func dvAlertViewWillDisappear(#dvAlertView: DVAlertViewController) {
+        println("Will disappear")
+    }
+    
+    func dvAlertViewDidDisappear(#dvAlertView: DVAlertViewController) {
+        println("Did disappear")
+    }
+```
+It's so easy right?
