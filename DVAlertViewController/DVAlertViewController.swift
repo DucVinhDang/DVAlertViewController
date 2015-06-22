@@ -445,7 +445,7 @@ class DVAlertViewController: UIViewController {
         if animate {
             UIView.animateWithDuration(self.duration!, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: {
                 self.view.alpha = 1
-                self.vibrancyView?.alpha = 0.5
+                self.vibrancyView?.alpha = 0.6
                 self.alertBodyView.center = CGPoint(x: self.deviceWidth/2, y: self.deviceHeight/2)
                 }, completion: { finished in
                 
@@ -453,7 +453,7 @@ class DVAlertViewController: UIViewController {
             })
         } else {
             self.view.alpha = 1
-            self.vibrancyView?.alpha = 0.5
+            self.vibrancyView?.alpha = 0.6
             self.alertBodyView.center = CGPoint(x: self.deviceWidth/2, y: self.deviceHeight/2)
         }
     }
