@@ -24,7 +24,7 @@ class DVAlertViewButton: UIButton {
     
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
-        var path = UIBezierPath(rect: CGRect(x: 0, y: self.frame.height-6, width: self.frame.width, height: 6))
+        var path = UIBezierPath(rect: CGRect(x: 0, y: self.frame.height-4, width: self.frame.width, height: 4))
         shadowColor!.setFill()
         path.fill()
     }
@@ -75,6 +75,8 @@ class DVAlertViewController: UIViewController {
     
     let defaultFont = "HelveticaNeue"
     let buttonFont = "HelveticaNeue-Bold"
+    
+    weak var vibrancyView: UIView?
     
     var containerView = UIView()
     var alertBodyView = UIView()
@@ -157,7 +159,7 @@ class DVAlertViewController: UIViewController {
         alertBodyView.addSubview(alertTitleLabel)
         alertBodyView.addSubview(alertSubTitleTextView)
         
-        addVibrancyEffectToView(self.view)
+        //addVibrancyEffectToView(self.view)
         view.bringSubviewToFront(self.alertBodyView)
     }
     
@@ -401,6 +403,18 @@ class DVAlertViewController: UIViewController {
     func showAlert(#animate: Bool) {
         delegate?.dvAlertViewWillAppear?(dvAlertView: self)
         if target != nil {
+            var vView = UIView()
+            target?.view.addSubview(vView)
+            
+            vView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            target?.view.addConstraint(NSLayoutConstraint(item: vView, attribute: .Leading, relatedBy: .Equal, toItem: target?.view, attribute: .Leading, multiplier: 1.0, constant: 0.0))
+            target?.view.addConstraint(NSLayoutConstraint(item: vView, attribute: .Trailing, relatedBy: .Equal, toItem: target?.view, attribute: .Trailing, multiplier: 1.0, constant: 0.0))
+            target?.view.addConstraint(NSLayoutConstraint(item: vView, attribute: .Top, relatedBy: .Equal, toItem: target?.view, attribute: .Top, multiplier: 1.0, constant: 0.0))
+            target?.view.addConstraint(NSLayoutConstraint(item: vView, attribute: .Bottom, relatedBy: .Equal, toItem: target?.view, attribute: .Bottom, multiplier: 1.0, constant: 0.0))
+            vView.backgroundColor = UIColor.blackColor()
+            //addVibrancyEffectToView(vView)
+            vibrancyView = vView
+            
             target!.addChildViewController(self)
             target!.view.addSubview(self.view)
             self.didMoveToParentViewController(target!)
@@ -426,10 +440,12 @@ class DVAlertViewController: UIViewController {
         // Prepare for animation
         alertBodyView.center = CGPoint(x: alertBodyView.center.x, y: -alertBodyView.bounds.height/2)
         self.view.alpha = 0
+        vibrancyView?.alpha = 0
         
         if animate {
             UIView.animateWithDuration(self.duration!, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: {
                 self.view.alpha = 1
+                self.vibrancyView?.alpha = 0.5
                 self.alertBodyView.center = CGPoint(x: self.deviceWidth/2, y: self.deviceHeight/2)
                 }, completion: { finished in
                 
@@ -437,6 +453,7 @@ class DVAlertViewController: UIViewController {
             })
         } else {
             self.view.alpha = 1
+            self.vibrancyView?.alpha = 0.5
             self.alertBodyView.center = CGPoint(x: self.deviceWidth/2, y: self.deviceHeight/2)
         }
     }
@@ -447,10 +464,14 @@ class DVAlertViewController: UIViewController {
             UIView.animateWithDuration(self.duration!, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: {
                 self.alertBodyView.center = CGPoint(x: self.deviceWidth/2, y: -self.alertBodyView.bounds.height/2)
                 self.view.alpha = 0
+                self.vibrancyView?.alpha = 0
                 }, completion: { finished in
                     self.view.removeFromSuperview()
                     self.willMoveToParentViewController(nil)
                     self.view = nil
+                    
+                    self.vibrancyView?.removeFromSuperview()
+                    self.vibrancyView = nil
             })
         }
     }
