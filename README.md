@@ -6,7 +6,7 @@ Go to anywhere you want to show your alert and write the following code below:
 ```
 var alert = DVAlertViewController()
 ```
-It's used to create a new alert, now you want to show any types of alert you want, let's do it!!!
+It's used to create a new alert, now you want to show any types of alerts you want, let's do it!
 I bring to you 6 types of DVAlertViewController include:
 ### Success Alert:
 ```
