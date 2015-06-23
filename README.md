@@ -1,10 +1,10 @@
 # DVAlertViewController
 DVAlertViewController is a third party that helps you to display many types of alert and you can customize it if you want. I want to use a new kind of AlertViewController instead of Apple's so i have decided to create it. Hope you like it ! Thanks
 
-<img src="/IMG_0601.jpg" width="205px" height=auto style="float: left" />
-<img src="/IMG_0603.jpg" width="205px" height=auto style="float: left" />
-<img src="/IMG_0604.jpg" width="205px" height=auto style="float: left" />
-<img src="/IMG_0605.jpg" width="205px" height=auto style="float: left" />
+<img src="/IMG_0601.jpg" width="305px" height=auto style="float: left" />
+<img src="/IMG_0603.jpg" width="305px" height=auto style="float: left" />
+<img src="/IMG_0604.jpg" width="305px" height=auto style="float: left" />
+<img src="/IMG_0605.jpg" width="305px" height=auto style="float: left" />
 
 ## Setup
 Go to anywhere you want to show your alert and write the following code below:
