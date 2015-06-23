@@ -1,7 +1,10 @@
 # DVAlertViewController
 DVAlertViewController is a third party that helps you to display many types of alert and you can customize it if you want. I want to use a new kind of AlertViewController instead of Apple's so i have decided to create it. Hope you like it ! Thanks
 
-<img src="IMG_0601.jpg" width="355px" height=auto />
+<img src="/IMG_0601.jpg" width="205px" height=auto style="float: left" />
+<img src="/IMG_0603.jpg" width="205px" height=auto style="float: left" />
+<img src="/IMG_0604.jpg" width="205px" height=auto style="float: left" />
+<img src="/IMG_0605.jpg" width="205px" height=auto style="float: left" />
 
 ## Setup
 Go to anywhere you want to show your alert and write the following code below:
@@ -46,7 +49,7 @@ alert.showAlertNormal(target: self, delegate: self, title:"Wonderful", subTitle:
 * subTitle: Your alert's subtitle.
 * duration: Time to display your alert.
 * cancelButtonTitle: The title of your cancel button.
-* otherButtonTitles: There is one title for each button, if you want more buttons, insert the button'titles to this array.
+* otherButtonTitles: There is one title for each button, if you want more buttons, insert the button's titles to this array.
 * animate: The animation of the alert, if you want it, write true, conversely, write false.
 
 ## Customizing your alert
