@@ -103,7 +103,7 @@ class DVAlertViewController: UIViewController {
     let shadowNormalColor = UIColor(red: 0.157, green: 0.576, blue: 0.839, alpha: 1)
     
     let alertBodyViewBorderWidth: CGFloat = 0.0
-    let alertBodyViewCornerRadius: CGFloat = 0.0
+    let alertBodyViewCornerRadius: CGFloat = 2.0
     
     var alertTitle: String? {
         set(value) { alertTitleLabel.text = value }
@@ -572,13 +572,13 @@ class DVAlertViewController: UIViewController {
     
     // MARK: - Supporting methods
     
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        if toInterfaceOrientation.isLandscape {
-            
-        } else if toInterfaceOrientation.isPortrait {
-            
-        }
-    }
+//    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+//        if toInterfaceOrientation.isLandscape {
+//            
+//        } else if toInterfaceOrientation.isPortrait {
+//            
+//        }
+//    }
 
     
 //    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
