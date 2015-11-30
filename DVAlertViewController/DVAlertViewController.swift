@@ -13,7 +13,11 @@ class DVAlertViewButton: UIButton {
         case Important, Normal, Cancel
     }
     var alertViewButtonType = DVAlertViewButtonType.Normal
-    var title: String?
+    var title: String? {
+        willSet(value) {
+            setTitle(value, forState: .Normal)
+        }
+    }
     var shadowColor: UIColor?
     
     override func layoutSubviews() {
@@ -21,6 +25,7 @@ class DVAlertViewButton: UIButton {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 3.0
         self.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
+        self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
     }
     
     override func drawRect(rect: CGRect) {
@@ -300,7 +305,7 @@ class DVAlertViewController: UIViewController {
         if delegate != nil { self.delegate = delegate }
         
         if !title.isEmpty { alertTitleLabel.text = title }
-        else { alertTitleLabel.text = "So... this is nil, right?" }
+        else { alertTitleLabel.text = "Empty label" }
         
         self.duration = duration
         
@@ -326,15 +331,11 @@ class DVAlertViewController: UIViewController {
         if alertButtons.count >= maxNumberOfButtons { return }
         let newButton = DVAlertViewButton()
         if buttonType == .Cancel {
-            if !existedCancelButton {
-                existedCancelButton = true
-                newButton.alertViewButtonType = buttonType
-            } else { return }
-        } else { newButton.alertViewButtonType = buttonType }
-        
+            if !existedCancelButton { existedCancelButton = true }
+            else { return }
+        }
+        newButton.alertViewButtonType = buttonType
         newButton.title = title
-        newButton.setTitle(title, forState: .Normal)
-        newButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         changeButtonColor(button: newButton, alertViewStyle: alertViewStyle)
         
         let xPos = (alertBodyViewWidth - alertButtonWidth)/2
@@ -381,7 +382,7 @@ class DVAlertViewController: UIViewController {
             
             if alertButtons.count % 2 != 0 {
                 let lastButton = alertButtons[alertButtons.count-1] as DVAlertViewButton
-                lastButton.frame = CGRectMake((alertBodyViewWidth - alertButtonWidth)/2, lastButton.frame.origin.y, alertButtonWidth, alertButtonHeight)
+                lastButton.frame.size.width = alertButtonWidth
             }
         }
         
@@ -446,14 +447,25 @@ class DVAlertViewController: UIViewController {
                 self.view.alpha = 1
                 self.vibrancyView?.alpha = 0.6
                 self.alertBodyView.center = CGPoint(x: self.deviceWidth/2, y: self.deviceHeight/2)
+                
+                if self.target?.navigationController != nil {
+                    self.target?.navigationController?.navigationBar.alpha = 0
+                }
+                
                 }, completion: { finished in
-                
-                
+                    if self.target?.navigationController != nil {
+                        self.target?.navigationController?.navigationBar.hidden = true
+                    }
             })
         } else {
             self.view.alpha = 1
             self.vibrancyView?.alpha = 0.6
             self.alertBodyView.center = CGPoint(x: self.deviceWidth/2, y: self.deviceHeight/2)
+            
+            if self.target?.navigationController != nil {
+                self.target?.navigationController?.navigationBar.alpha = 0
+                self.target?.navigationController?.navigationBar.hidden = true
+            }
         }
     }
     
@@ -464,6 +476,12 @@ class DVAlertViewController: UIViewController {
                 self.alertBodyView.center = CGPoint(x: self.deviceWidth/2, y: -self.alertBodyView.bounds.height/2)
                 self.view.alpha = 0
                 self.vibrancyView?.alpha = 0
+                
+                if self.target?.navigationController != nil {
+                    self.target?.navigationController?.navigationBar.hidden = false
+                    self.target?.navigationController?.navigationBar.alpha = 1
+                }
+                
                 }, completion: { finished in
                     self.view.removeFromSuperview()
                     self.willMoveToParentViewController(nil)
@@ -480,12 +498,6 @@ class DVAlertViewController: UIViewController {
             alertSubTitleTextView.text = "I think you have forgot something..."
         } else {
             alertSubTitleTextView.text = subTitle
-            // Adjust text view size, if necessary
-//            let str = subTitle as NSString
-//            let attr = [NSFontAttributeName:alertSubTitleTextView.font!]
-//            let sz = CGSize(width: alertBodyViewWidth - 24, height:90)
-//            let r = str.boundingRectWithSize(sz, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes:attr, context:nil)
-//            let ht = ceil(r.size.height)
             
             let newSize = alertSubTitleTextView.sizeThatFits(CGSize(width: alertSubTitleWidth, height: 0))
             alertSubTitleHeight = newSize.height
@@ -506,9 +518,6 @@ class DVAlertViewController: UIViewController {
                     button.center = CGPoint(x: button.center.x, y: button.center.y + valueChange!)
                 }
             }
-            
-            alertSubTitleHeight = CGFloat(ht)
-            alertSubTitleTextView.frame = CGRectMake(alertSubTitleTextView.frame.origin.x, alertSubTitleTextView.frame.origin.y, alertSubTitleWidth, alertSubTitleHeight)
         }
     }
     
