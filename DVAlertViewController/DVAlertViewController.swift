@@ -18,7 +18,8 @@ class DVAlertViewButton: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.layer.cornerRadius = 0.0
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 3.0
         self.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
     }
     
@@ -103,7 +104,7 @@ class DVAlertViewController: UIViewController {
     let shadowNormalColor = UIColor(red: 0.157, green: 0.576, blue: 0.839, alpha: 1)
     
     let alertBodyViewBorderWidth: CGFloat = 0.0
-    let alertBodyViewCornerRadius: CGFloat = 2.0
+    let alertBodyViewCornerRadius: CGFloat = 5.0
     
     var alertTitle: String? {
         set(value) { alertTitleLabel.text = value }
@@ -202,8 +203,9 @@ class DVAlertViewController: UIViewController {
     private func setupAlertSubTitleTextView() {
         let xPos = (alertBodyViewWidth - alertSubTitleWidth)/2
         let yPos = CGRectGetMaxY(alertTitleLabel.frame) + distanceAlertTitleLabelAndAlertSubTitleTextView
-        alertSubTitleTextView.frame = CGRectMake(xPos, yPos, alertSubTitleWidth, alertSubTitleHeight)
+        alertSubTitleTextView.frame = CGRectMake(xPos, yPos, alertSubTitleWidth, 0)
         alertSubTitleTextView.editable = false
+        alertSubTitleTextView.scrollEnabled = false
         alertSubTitleTextView.textAlignment = .Center
         alertSubTitleTextView.textContainerInset = UIEdgeInsetsZero
         alertSubTitleTextView.textContainer.lineFragmentPadding = 0;
@@ -479,11 +481,17 @@ class DVAlertViewController: UIViewController {
         } else {
             alertSubTitleTextView.text = subTitle
             // Adjust text view size, if necessary
-            let str = subTitle as NSString
-            let attr = [NSFontAttributeName:alertSubTitleTextView.font!]
-            let sz = CGSize(width: alertBodyViewWidth - 24, height:90)
-            let r = str.boundingRectWithSize(sz, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes:attr, context:nil)
-            let ht = ceil(r.size.height)
+//            let str = subTitle as NSString
+//            let attr = [NSFontAttributeName:alertSubTitleTextView.font!]
+//            let sz = CGSize(width: alertBodyViewWidth - 24, height:90)
+//            let r = str.boundingRectWithSize(sz, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes:attr, context:nil)
+//            let ht = ceil(r.size.height)
+            
+            let newSize = alertSubTitleTextView.sizeThatFits(CGSize(width: alertSubTitleWidth, height: 0))
+            alertSubTitleHeight = newSize.height
+            let ht = alertSubTitleHeight
+            alertSubTitleTextView.frame.size.height = ht
+            
             var valueChange: CGFloat?
             if ht < alertSubTitleHeight {
                 valueChange = -(alertSubTitleHeight - CGFloat(ht))
@@ -542,8 +550,7 @@ class DVAlertViewController: UIViewController {
     
     private func addNewValueToBodyViewHeightWithValue(value: CGFloat) {
         alertBodyViewHeight += value
-        alertBodyView.frame = CGRectMake(alertBodyView.frame.origin.x, alertBodyView.frame.origin.y, alertBodyViewWidth, alertBodyViewHeight)
-        alertBodyView.center = CGPoint(x: deviceWidth/2, y: deviceHeight/2)
+        alertBodyView.frame.size.height = alertBodyViewHeight
     }
     
     private func addVibrancyEffectToView(currentView: UIView) {
