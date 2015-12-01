@@ -18,7 +18,8 @@ class DVAlertViewButton: UIButton {
             setTitle(value, forState: .Normal)
         }
     }
-    var shadowColor: UIColor?
+    
+    // MARK: - VIEW METHODS
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -38,24 +39,42 @@ class DVAlertViewButton: UIButton {
 
 class DVAlertViewTextField: UITextField {
     enum DVAlertViewTextFieldType {
+        case Normal, Password
+    }
+    
+    enum DVAlertViewTextFieldBorderType {
         case Normal, Error, Warning, Success
     }
     
     private var alertViewTextFieldType = DVAlertViewTextFieldType.Normal
+    private var alertViewTextFieldBorderType = DVAlertViewTextFieldBorderType.Normal
     private var title: String?
     private var lineBorderWidth: CGFloat = 1
     
-    // SET/GET METHODS
+    // MARK: - SET/GET METHODS
     
+    // SET
     func setPlaceholderString(str: String) {
         title = str
         placeholder = title
     }
     
-    func setAlertViewTextFieldType() {
+    func setAlertViewTextFieldType(type: DVAlertViewTextFieldType) {
+        alertViewTextFieldType = type
+        switch (alertViewTextFieldType) {
+        case .Normal:
+            self.secureTextEntry = false
+        case .Password:
+            self.secureTextEntry = true
+        }
+    }
+    
+    func setAlertViewTextFieldBorderType(type: DVAlertViewTextFieldBorderType) {
+        alertViewTextFieldBorderType = type
         updateLineColorByType()
     }
     
+    // GET
     func getPlaceholderString() -> String {
         return title!
     }
@@ -64,7 +83,11 @@ class DVAlertViewTextField: UITextField {
         return alertViewTextFieldType
     }
     
-    // VIEW METHODS
+    func getAlertViewTextFieldBorderType() -> DVAlertViewTextFieldBorderType {
+        return alertViewTextFieldBorderType
+    }
+    
+    // MARK: - VIEW METHODS
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -73,6 +96,7 @@ class DVAlertViewTextField: UITextField {
         self.textAlignment = .Center
         self.backgroundColor = UIColor.clearColor()
         self.font = UIFont(name: "HelveticaNeue", size: 13)
+        self.clearButtonMode = UITextFieldViewMode.WhileEditing
         self.tintColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
     }
     
@@ -81,13 +105,15 @@ class DVAlertViewTextField: UITextField {
         let linePath = UIBezierPath()
         linePath.moveToPoint(CGPoint(x: 0, y: self.bounds.height - lineBorderWidth/2))
         linePath.addLineToPoint(CGPoint(x: self.bounds.width, y: self.bounds.height - lineBorderWidth/2))
-        UIColor.lightGrayColor().setStroke()
+        UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1.0).setStroke()
         linePath.stroke()
         linePath.closePath()
     }
     
+    // MARK: - SUPPORTING METHODS
+    
     private func updateLineColorByType() {
-        switch alertViewTextFieldType {
+        switch alertViewTextFieldBorderType {
         case .Normal:
             self.layer.borderWidth = 0
             self.layer.borderColor = UIColor.clearColor().CGColor
@@ -122,76 +148,76 @@ class DVAlertViewController: UIViewController {
         case Hide, Show
     }
     
-    var deviceWidth = UIScreen.mainScreen().bounds.width
-    var deviceHeight = UIScreen.mainScreen().bounds.height
-    var alertBodyViewWidth: CGFloat = 250
-    var alertBodyViewHeight: CGFloat = 210
+    private var deviceWidth = UIScreen.mainScreen().bounds.width
+    private var deviceHeight = UIScreen.mainScreen().bounds.height
+    private var alertBodyViewWidth: CGFloat = 250
+    private var alertBodyViewHeight: CGFloat = 210
 //    let alertStyleBodyViewWidth: CGFloat = 225
 //    let alertStyleBodyViewHeight: CGFloat = 45
-    let alertStyleBodyViewWidth: CGFloat = 0
-    let alertStyleBodyViewHeight: CGFloat = 0
+    private let alertStyleBodyViewWidth: CGFloat = 0
+    private let alertStyleBodyViewHeight: CGFloat = 0
 
-    let alertTitleWidth: CGFloat = 225
-    let alertTitleHeight: CGFloat = 30
-    var alertSubTitleWidth: CGFloat = 225
-    var alertSubTitleHeight: CGFloat = 60
-    var alertButtonWidth: CGFloat = 234
-    var alertButtonHeight: CGFloat = 35
-    let inputFieldWidth: CGFloat = 225
-    let inputFieldHeight: CGFloat = 40
+    private let alertTitleWidth: CGFloat = 225
+    private let alertTitleHeight: CGFloat = 30
+    private var alertSubTitleWidth: CGFloat = 225
+    private var alertSubTitleHeight: CGFloat = 60
+    private var alertButtonWidth: CGFloat = 234
+    private var alertButtonHeight: CGFloat = 35
+    private let inputFieldWidth: CGFloat = 210
+    private let inputFieldHeight: CGFloat = 40
     
 //    let alertStyleBodyViewMarginTop: CGFloat = -14
 //    let distanceAlertStyleBodyViewAndAlertTitleLabel: CGFloat = 10
-    let alertStyleBodyViewMarginTop: CGFloat = 0
-    let distanceAlertStyleBodyViewAndAlertTitleLabel: CGFloat = 15
+    private let alertStyleBodyViewMarginTop: CGFloat = 0
+    private let distanceAlertStyleBodyViewAndAlertTitleLabel: CGFloat = 15
     
-    let distanceAlertTitleLabelAndAlertSubTitleTextView: CGFloat = 10
-    let distanceAlertSubTitleTextViewAndInputForm: CGFloat = 12
-    let distanceInputFormAndButton: CGFloat = 12
-    let distanceAlertSubTitleTextViewAndButton: CGFloat = 20
-    let distanceButtonAndButton: CGFloat = 8
-    let distanceInputFieldAndInputField: CGFloat = 5
+    private let distanceAlertTitleLabelAndAlertSubTitleTextView: CGFloat = 10
+    private let distanceAlertSubTitleTextViewAndInputForm: CGFloat = 12
+    private let distanceInputFormAndButton: CGFloat = 12
+    private let distanceAlertSubTitleTextViewAndButton: CGFloat = 20
+    private let distanceButtonAndButton: CGFloat = 8
+    private let distanceInputFieldAndInputField: CGFloat = 5
     
-    let defaultFont = "HelveticaNeue"
-    let buttonFont = "HelveticaNeue-Bold"
+    private let defaultFont = "HelveticaNeue"
+    private let buttonFont = "HelveticaNeue-Bold"
     
-    weak var vibrancyView: UIView?
+    private weak var vibrancyView: UIView?
     
-    var containerView = UIView()
-    var alertBodyView = UIView()
-    var alertStyleBodyView = UIView()
-    var alertTitleLabel = UILabel()
-    var alertSubTitleTextView = UITextView()
-    weak var inputForm: UIView?
-    var alertButtons = [DVAlertViewButton]()
-    var inputFields: [DVAlertViewTextField]?
-    var alertViewStyle: DVAlertViewStyle?
-    var alertViewCurrentState: DVAlertViewCurrentState = .Hide
-    var delegate: DVAlertViewControllerDelegate?
+    private var containerView = UIView()
+    private var alertBodyView = UIView()
+    private var alertStyleBodyView = UIView()
+    private var alertTitleLabel = UILabel()
+    private var alertSubTitleTextView = UITextView()
+    private weak var inputForm: UIView?
+    private var alertButtons = [DVAlertViewButton]()
+    private var inputFields: [DVAlertViewTextField]?
+    private var alertViewStyle: DVAlertViewStyle?
+    private var alertViewCurrentState: DVAlertViewCurrentState = .Hide
+    private var delegate: DVAlertViewControllerDelegate?
     
-    let successColor = UIColor(red: 0.263, green: 0.824, blue: 0.620, alpha: 1.0)
-    let infoColor = UIColor(red: 0.208, green: 0.706, blue: 0.894, alpha: 1.0)
-    let warningColor = UIColor(red: 0.867, green: 0.765, blue: 0.333, alpha: 1.0)
-    let errorColor = UIColor(red: 0.973, green: 0.145, blue: 0.251, alpha: 1.0)
-    let noticeColor = UIColor(red: 0.910, green: 0.431, blue: 0.537, alpha: 1.0)
-    let normalColor = UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1.0)
+    private let successColor = UIColor(red: 0.263, green: 0.824, blue: 0.620, alpha: 1.0)
+    private let infoColor = UIColor(red: 0.208, green: 0.706, blue: 0.894, alpha: 1.0)
+    private let warningColor = UIColor(red: 0.867, green: 0.765, blue: 0.333, alpha: 1.0)
+    private let errorColor = UIColor(red: 0.973, green: 0.145, blue: 0.251, alpha: 1.0)
+    private let noticeColor = UIColor(red: 0.910, green: 0.431, blue: 0.537, alpha: 1.0)
+    private let normalColor = UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1.0)
     
-    let shadowSuccessColor = UIColor(red: 0.569, green: 0.925, blue: 0.682, alpha: 1)
-    let shadowInfoColor = UIColor(red: 0.157, green: 0.576, blue: 0.839, alpha: 1)
-    let shadowWarningColor = UIColor(red: 0.941, green: 0.91, blue: 0.541, alpha: 1)
-    let shadowErrorColor = UIColor(red: 0.839, green: 0.165, blue: 0.165, alpha: 1)
-    let shadowNoticeColor = UIColor(red: 0.933, green: 0.537, blue: 0.537, alpha: 1)
-    let shadowNormalColor = UIColor(red: 0.157, green: 0.576, blue: 0.839, alpha: 1)
+    private let shadowSuccessColor = UIColor(red: 0.569, green: 0.925, blue: 0.682, alpha: 1)
+    private let shadowInfoColor = UIColor(red: 0.157, green: 0.576, blue: 0.839, alpha: 1)
+    private let shadowWarningColor = UIColor(red: 0.941, green: 0.91, blue: 0.541, alpha: 1)
+    private let shadowErrorColor = UIColor(red: 0.839, green: 0.165, blue: 0.165, alpha: 1)
+    private let shadowNoticeColor = UIColor(red: 0.933, green: 0.537, blue: 0.537, alpha: 1)
+    private let shadowNormalColor = UIColor(red: 0.157, green: 0.576, blue: 0.839, alpha: 1)
     
-    let alertBodyViewBorderWidth: CGFloat = 0.0
-    let alertBodyViewCornerRadius: CGFloat = 5.0
+    private let alertBodyViewBorderWidth: CGFloat = 0.0
+    private let alertBodyViewCornerRadius: CGFloat = 5.0
     
-    var alertTitle: String? {
+    private var alertTitle: String? {
         set(value) { alertTitleLabel.text = value }
         get { return self.alertTitle }
     }
     
-    var alertSubTitle: String? {
+    private var alertSubTitle: String? {
         set(value) {
             alertSubTitleTextView.text = value
             checkingHeightOfSubTitleViewWithTitle(subTitle: value!)
@@ -199,15 +225,17 @@ class DVAlertViewController: UIViewController {
         get { return self.alertSubTitle }
     }
     
-    var duration: NSTimeInterval? = 0.7
+    private var duration: NSTimeInterval? = 0.7
     
     /////////////////// Setting values ///////////////////
     
-    weak var target: UIViewController?
+    private weak var target: UIViewController?
     private var maxNumberOfButtons = 6
     private var maxNumberOfButtonLines = 3
     private var maxNumberOfButtonsInALine = 1
     private var existedCancelButton = false
+    
+    // MARK: - INIT AND SETUP METHODS
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -293,9 +321,9 @@ class DVAlertViewController: UIViewController {
         alertSubTitleTextView.text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do"
     }
     
-    // MARK: - Show alert methods
+    // MARK: - SHOW ALERT METHODS
     
-    // No delegate, duration,  otherButtonsTitles, animate (Only cancel button)
+    // No delegate, duration, otherButtonsTitles, animate (Only cancel button)
     
     func showAlertSuccess(target target: UIViewController, title: String, subTitle: String, cancelButtonTitle: String) {
         setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Success, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
@@ -381,8 +409,10 @@ class DVAlertViewController: UIViewController {
         
     }
     
+    // MARK: SETUP ELEMENTS INSIDE THIS VIEW
+    
     private func setupInputForm(inputTitles: [String]) {
-        let xPos = (alertBodyViewWidth - alertTitleWidth)/2
+        let xPos = (alertBodyViewWidth - inputFieldWidth)/2
         let yPos = CGRectGetMaxY(alertSubTitleTextView.frame) + distanceAlertSubTitleTextViewAndInputForm
         let width = inputFieldWidth
         let height = (inputFieldHeight * CGFloat(inputTitles.count)) + (distanceInputFieldAndInputField * CGFloat(inputTitles.count + 1))
@@ -521,6 +551,8 @@ class DVAlertViewController: UIViewController {
         addNewValueToBodyViewHeightWithValue(alertBodyViewNewHeight)
     }
     
+    // MARK: - SHOW/HIDE VIEW METHODS
+    
     func showAlert(animate animate: Bool) {
         delegate?.dvAlertViewWillAppear?(dvAlertView: self)
         if target != nil {
@@ -604,15 +636,30 @@ class DVAlertViewController: UIViewController {
                 }
                 
                 }, completion: { finished in
+                    self.vibrancyView?.removeFromSuperview()
+                    self.vibrancyView = nil
+                    
+                    for button in self.alertButtons {
+                        button.removeFromSuperview()
+                    }
+                    self.alertButtons.removeAll()
+                    
+                    if self.inputFields != nil {
+                        for input in self.inputFields! {
+                            input.removeFromSuperview()
+                        }
+                        self.inputFields?.removeAll()
+                        self.inputFields = nil
+                    }
+                    
                     self.view.removeFromSuperview()
                     self.willMoveToParentViewController(nil)
                     self.view = nil
-                    
-                    self.vibrancyView?.removeFromSuperview()
-                    self.vibrancyView = nil
             })
         }
     }
+    
+    // MARK: - SUPPORTING METHODS
 
     private func checkingHeightOfSubTitleViewWithTitle(subTitle subTitle: String) {
         if subTitle.isEmpty {
@@ -648,32 +695,26 @@ class DVAlertViewController: UIViewController {
             self.alertViewStyle = .Success
             alertStyleBodyView.backgroundColor = successColor
             button.backgroundColor = successColor
-            button.shadowColor = shadowSuccessColor
         case .Info:
             self.alertViewStyle = .Info
             alertStyleBodyView.backgroundColor = infoColor
             button.backgroundColor = infoColor
-            button.shadowColor = shadowInfoColor
         case .Warning:
             self.alertViewStyle = .Warning
             alertStyleBodyView.backgroundColor = warningColor
             button.backgroundColor = warningColor
-            button.shadowColor = shadowWarningColor
         case .Error:
             self.alertViewStyle = .Error
             alertStyleBodyView.backgroundColor = errorColor
             button.backgroundColor = errorColor
-            button.shadowColor = shadowErrorColor
         case .Notice:
             self.alertViewStyle = .Notice
             alertStyleBodyView.backgroundColor = noticeColor
             button.backgroundColor = noticeColor
-            button.shadowColor = shadowNoticeColor
         case .Normal:
             self.alertViewStyle = .Normal
             alertStyleBodyView.backgroundColor = normalColor
             button.backgroundColor = normalColor
-            button.shadowColor = shadowNormalColor
         }
         button.setNeedsDisplay()
     }
@@ -691,15 +732,26 @@ class DVAlertViewController: UIViewController {
         currentView.addSubview(blurV)
     }
     
-    // MARK: - Button methods
+    // MARK: - BUTTON METHODS
     
     func cancelAction(sender: DVAlertViewButton) {
         hideAlert(true)
     }
     
     func buttonAction(sender: DVAlertViewButton) {
-        if sender.tag == 0 { hideAlert(true) }
+        hideAlert(true)
         delegate?.dvAlertView?(dvAlertView: self, didClickButtonAtIndex: sender.tag)
+    }
+    
+    // MARK: - INPUTFIELDS METHODS
+    
+    func getTextOfInputAtIndex(index: Int) -> String {
+        if(inputFields != nil) {
+            if(index < inputFields!.count) {
+            return inputFields![index].text!
+            }
+        }
+        return ""
     }
     
     // MARK: - Supporting methods

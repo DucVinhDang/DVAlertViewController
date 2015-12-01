@@ -121,6 +121,25 @@
                         <action selector="showInfoAction:" destination="-1" eventType="touchUpInside" id="Fl8-OY-4kV"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GDs-cW-g5j">
+                    <rect key="frame" x="94" y="121" width="132" height="30"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.12800322155897695" green="0.83657149869109948" blue="0.56961836926015075" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="1mH-Ar-L78"/>
+                        <constraint firstAttribute="width" constant="132" id="Nnj-ns-HA9"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="132" id="eQ4-mf-pwo"/>
+                        <constraint firstAttribute="height" constant="30" id="lOC-0D-JcY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal" title="Show input form">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="showInputFormAction:" destination="-1" eventType="touchUpInside" id="Jla-Ar-Xjd"/>
+                    </connections>
+                </button>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -128,10 +147,12 @@
                 <constraint firstItem="qHj-uc-AJt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="0V3-WM-6qC"/>
                 <constraint firstAttribute="bottom" secondItem="qHj-uc-AJt" secondAttribute="bottom" id="2ww-fv-h2q"/>
                 <constraint firstAttribute="centerX" secondItem="fHm-Fr-n1I" secondAttribute="centerX" id="4jx-77-3pQ"/>
+                <constraint firstItem="GDs-cW-g5j" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="-148" id="8sv-nh-2ra"/>
                 <constraint firstAttribute="centerX" secondItem="Exn-LJ-wQM" secondAttribute="centerX" id="CQc-qI-u7C"/>
                 <constraint firstItem="P6W-wa-f6F" firstAttribute="top" secondItem="Exn-LJ-wQM" secondAttribute="bottom" constant="8" id="Jyx-7g-KGn"/>
                 <constraint firstItem="ngP-sb-fvT" firstAttribute="top" secondItem="fHm-Fr-n1I" secondAttribute="bottom" constant="8" id="atT-jv-rCR"/>
                 <constraint firstItem="qHj-uc-AJt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ck7-JC-TbT"/>
+                <constraint firstItem="GDs-cW-g5j" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="d9h-Di-F1L"/>
                 <constraint firstAttribute="centerX" secondItem="LV3-7L-tdZ" secondAttribute="centerX" id="e2P-jR-NKB"/>
                 <constraint firstAttribute="trailing" secondItem="qHj-uc-AJt" secondAttribute="trailing" id="e9u-jN-G97"/>
                 <constraint firstAttribute="centerX" secondItem="ngP-sb-fvT" secondAttribute="centerX" id="kkn-BC-hNO"/>

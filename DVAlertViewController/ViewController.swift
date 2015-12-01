@@ -36,12 +36,18 @@ class ViewController: UIViewController, DVAlertViewControllerDelegate {
 //        al.delegate = self
 //        al.showAlert(animate: true)
         
-        DVAlertViewController().showAlertInputForm(target: self, delegate: self, title: "Đăng nhập", subTitle: "Nhập thông tin tài khoản của bạn dưới đây", duration: 0.5, inputTitles: ["Tên đăng nhập", "Mật khẩu"], cancelButtonTitle: "Huỷ", otherButtonsTitles: ["Đăng nhập", "Quên mật khẩu?"], animate: true)
+        DVAlertViewController().showAlertInputForm(target: self, delegate: self, title: "Đăng nhập", subTitle: "Nhập thông tin tài khoản của bạn dưới đây", duration: 0.8, inputTitles: ["Tên đăng nhập", "Mật khẩu"], cancelButtonTitle: "Huỷ", otherButtonsTitles: ["Đăng nhập", "Quên mật khẩu?"], animate: true)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    @IBAction func showInputFormAction(sender: AnyObject) {
+        let alert = DVAlertViewController()
+        alert.showAlertInputForm(target: self, delegate: self, title: "Đăng nhập", subTitle: "Nhập thông tin tài khoản của bạn dưới đây", duration: 0.8, inputTitles: ["Tên đăng nhập", "Mật khẩu", "Xác nhận mật khẩu"], cancelButtonTitle: "Huỷ", otherButtonsTitles: ["Đăng nhập", "Quên mật khẩu?"], animate: true)
     }
     
     @IBAction func showSuccessAction(sender: AnyObject) {
@@ -51,8 +57,7 @@ class ViewController: UIViewController, DVAlertViewControllerDelegate {
 
     @IBAction func showInfoAction(sender: AnyObject) {
         let alert = DVAlertViewController()
-        alert.showAlertInfo(target: self, delegate: self, title:"Wonderful", subTitle: "You have finished this event. Now you can send your result to all your friends.", duration: 0.7, cancelButtonTitle: "Cancel", otherButtonsTitles: ["Send Result", "Feedback", "Report", "Setting", "About"], animate: true)
-        alert.addButtonWithTitle(title: "Report", buttonType: .Normal, alertViewStyle: .Info)
+        alert.showAlertInfo(target: self, delegate: self, title:"Wonderful", subTitle: "You have finished this event. Now you can send your result to all your friends.", duration: 0.8, cancelButtonTitle: "Cancel", otherButtonsTitles: ["Send Result", "Feedback", "Move to trash", "Setting", "Report"], animate: true)
     }
 
     @IBAction func showWarningAction(sender: AnyObject) {
@@ -76,8 +81,8 @@ class ViewController: UIViewController, DVAlertViewControllerDelegate {
     }
     
     // MARK: - DVAlertViewController Delegate
-
-    func dvAlertView(dvAlertView: DVAlertViewController, didClickButtonAtIndex: Int) {
+    
+    func dvAlertView(dvAlertView dvAlertView: DVAlertViewController, didClickButtonAtIndex: Int) {
         switch(didClickButtonAtIndex) {
         case 0:
             print("\(didClickButtonAtIndex) was clicked so this alert will be hided")
@@ -92,6 +97,7 @@ class ViewController: UIViewController, DVAlertViewControllerDelegate {
         default:
             break
         }
+        print("\(dvAlertView.getTextOfInputAtIndex(0)) - \(dvAlertView.getTextOfInputAtIndex(1))")
     }
     
     func dvAlertViewWillAppear(dvAlertView dvAlertView: DVAlertViewController) {
