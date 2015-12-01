@@ -23,18 +23,20 @@ class ViewController: UIViewController, DVAlertViewControllerDelegate {
         
         // Do any additional setup after loading the view.
         
-        let al = DVAlertViewController()
-        al.alertTitle = "Hello all you guys"
-        al.alertSubTitle = "I'm so happy to be here..."
-        al.addButtonWithTitle(title: "Hello world 1", buttonType: .Normal, alertViewStyle: .Info)
-        al.addButtonWithTitle(title: "Hello world 2", buttonType: .Normal, alertViewStyle: .Info)
-        al.addButtonWithTitle(title: "Hello world 3", buttonType: .Normal, alertViewStyle: .Info)
-        al.addButtonWithTitle(title: "Hello world 4", buttonType: .Normal, alertViewStyle: .Info)
-        al.addButtonWithTitle(title: "Cancel", buttonType: .Cancel, alertViewStyle: .Info)
-        al.duration = 0.7
-        al.target = self
-        al.delegate = self
-        al.showAlert(animate: true)
+//        let al = DVAlertViewController()
+//        al.alertTitle = "Hello all you guys"
+//        al.alertSubTitle = "I'm so happy to be here..."
+//        al.addButtonWithTitle(title: "Hello world 1", buttonType: .Normal, alertViewStyle: .Info)
+//        al.addButtonWithTitle(title: "Hello world 2", buttonType: .Normal, alertViewStyle: .Info)
+//        al.addButtonWithTitle(title: "Hello world 3", buttonType: .Normal, alertViewStyle: .Info)
+//        al.addButtonWithTitle(title: "Hello world 4", buttonType: .Normal, alertViewStyle: .Info)
+//        al.addButtonWithTitle(title: "Cancel", buttonType: .Cancel, alertViewStyle: .Info)
+//        al.duration = 0.7
+//        al.target = self
+//        al.delegate = self
+//        al.showAlert(animate: true)
+        
+        DVAlertViewController().showAlertInputForm(target: self, delegate: self, title: "Đăng nhập", subTitle: "Nhập thông tin tài khoản của bạn dưới đây", duration: 0.5, inputTitles: ["Tên đăng nhập", "Mật khẩu"], cancelButtonTitle: "Huỷ", otherButtonsTitles: ["Đăng nhập", "Quên mật khẩu?"], animate: true)
     }
     
     override func didReceiveMemoryWarning() {

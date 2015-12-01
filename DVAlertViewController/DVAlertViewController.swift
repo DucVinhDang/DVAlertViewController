@@ -36,6 +36,74 @@ class DVAlertViewButton: UIButton {
     }
 }
 
+class DVAlertViewTextField: UITextField {
+    enum DVAlertViewTextFieldType {
+        case Normal, Error, Warning, Success
+    }
+    
+    private var alertViewTextFieldType = DVAlertViewTextFieldType.Normal
+    private var title: String?
+    private var lineBorderWidth: CGFloat = 1
+    
+    // SET/GET METHODS
+    
+    func setPlaceholderString(str: String) {
+        title = str
+        placeholder = title
+    }
+    
+    func setAlertViewTextFieldType() {
+        updateLineColorByType()
+    }
+    
+    func getPlaceholderString() -> String {
+        return title!
+    }
+    
+    func getAlertViewTextFieldType() -> DVAlertViewTextFieldType {
+        return alertViewTextFieldType
+    }
+    
+    // VIEW METHODS
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.masksToBounds = true
+        self.layer.borderWidth = 0
+        self.textAlignment = .Center
+        self.backgroundColor = UIColor.clearColor()
+        self.font = UIFont(name: "HelveticaNeue", size: 13)
+        self.tintColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
+    }
+    
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        let linePath = UIBezierPath()
+        linePath.moveToPoint(CGPoint(x: 0, y: self.bounds.height - lineBorderWidth/2))
+        linePath.addLineToPoint(CGPoint(x: self.bounds.width, y: self.bounds.height - lineBorderWidth/2))
+        UIColor.lightGrayColor().setStroke()
+        linePath.stroke()
+        linePath.closePath()
+    }
+    
+    private func updateLineColorByType() {
+        switch alertViewTextFieldType {
+        case .Normal:
+            self.layer.borderWidth = 0
+            self.layer.borderColor = UIColor.clearColor().CGColor
+        case .Error:
+            self.layer.borderWidth = lineBorderWidth
+            self.layer.borderColor = UIColor.redColor().CGColor
+        case .Warning:
+            self.layer.borderWidth = lineBorderWidth
+            self.layer.borderColor = UIColor.yellowColor().CGColor
+        case .Success:
+            self.layer.borderWidth = lineBorderWidth
+            self.layer.borderColor = UIColor.greenColor().CGColor
+        }
+    }
+}
+
 @objc protocol DVAlertViewControllerDelegate {
     optional func dvAlertViewWillAppear(dvAlertView dvAlertView: DVAlertViewController)
     optional func dvAlertViewWillDisappear(dvAlertView dvAlertView: DVAlertViewController)
@@ -69,6 +137,8 @@ class DVAlertViewController: UIViewController {
     var alertSubTitleHeight: CGFloat = 60
     var alertButtonWidth: CGFloat = 234
     var alertButtonHeight: CGFloat = 35
+    let inputFieldWidth: CGFloat = 225
+    let inputFieldHeight: CGFloat = 40
     
 //    let alertStyleBodyViewMarginTop: CGFloat = -14
 //    let distanceAlertStyleBodyViewAndAlertTitleLabel: CGFloat = 10
@@ -76,8 +146,11 @@ class DVAlertViewController: UIViewController {
     let distanceAlertStyleBodyViewAndAlertTitleLabel: CGFloat = 15
     
     let distanceAlertTitleLabelAndAlertSubTitleTextView: CGFloat = 10
+    let distanceAlertSubTitleTextViewAndInputForm: CGFloat = 12
+    let distanceInputFormAndButton: CGFloat = 12
     let distanceAlertSubTitleTextViewAndButton: CGFloat = 20
     let distanceButtonAndButton: CGFloat = 8
+    let distanceInputFieldAndInputField: CGFloat = 5
     
     let defaultFont = "HelveticaNeue"
     let buttonFont = "HelveticaNeue-Bold"
@@ -89,7 +162,9 @@ class DVAlertViewController: UIViewController {
     var alertStyleBodyView = UIView()
     var alertTitleLabel = UILabel()
     var alertSubTitleTextView = UITextView()
+    weak var inputForm: UIView?
     var alertButtons = [DVAlertViewButton]()
+    var inputFields: [DVAlertViewTextField]?
     var alertViewStyle: DVAlertViewStyle?
     var alertViewCurrentState: DVAlertViewCurrentState = .Hide
     var delegate: DVAlertViewControllerDelegate?
@@ -147,10 +222,10 @@ class DVAlertViewController: UIViewController {
         initAllViews()
     }
     
-    convenience init(target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, duration: NSTimeInterval, alertViewStyle: DVAlertViewStyle, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool) {
+    convenience init(target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, duration: NSTimeInterval, alertViewStyle: DVAlertViewStyle, inputTitles: [String]?, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool) {
         self.init(nibName: nil, bundle: nil)
         initAllViews()
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: alertViewStyle, duration: duration, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: false)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: alertViewStyle, duration: duration, inputTitles: inputTitles, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: false)
     }
     
     private func initAllViews() {
@@ -223,83 +298,125 @@ class DVAlertViewController: UIViewController {
     // No delegate, duration,  otherButtonsTitles, animate (Only cancel button)
     
     func showAlertSuccess(target target: UIViewController, title: String, subTitle: String, cancelButtonTitle: String) {
-        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Success, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Success, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
     }
     
     func showAlertInfo(target target: UIViewController, title: String, subTitle: String, cancelButtonTitle: String) {
-        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Info, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Info, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
     }
     
     func showAlertWarning(target target: UIViewController, title: String, subTitle: String, cancelButtonTitle: String) {
-        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Warning, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Warning, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
     }
     
     func showAlertError(target target: UIViewController, title: String, subTitle: String, cancelButtonTitle: String) {
-        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Error, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Error, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
     }
     
     func showAlertNotice(target target: UIViewController, title: String, subTitle: String, cancelButtonTitle: String) {
-        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Notice, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Notice, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
     }
     
     func showAlertNormal(target target: UIViewController, title: String, subTitle: String, cancelButtonTitle: String) {
-        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Normal, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: nil, title: title, subTitle: subTitle, alertViewStyle: .Normal, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: nil, animate: true, show: true)
     }
     
     
     // No duration, animate
     
     func showAlertSuccess(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, cancelButtonTitle: String, otherButtonsTitles: [String]?) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Success, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Success, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
     }
     
     func showAlertInfo(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, cancelButtonTitle: String, otherButtonsTitles: [String]?) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Info, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Info, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
     }
     
     func showAlertWarning(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, cancelButtonTitle: String, otherButtonsTitles: [String]?) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Warning, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Warning, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
     }
     
     func showAlertError(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, cancelButtonTitle: String, otherButtonsTitles: [String]?) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Error, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Error, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
     }
     
     func showAlertNotice(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, cancelButtonTitle: String, otherButtonsTitles: [String]?) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Notice, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Notice, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
     }
     
     func showAlertNormal(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, cancelButtonTitle: String, otherButtonsTitles: [String]?) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Normal, duration: 0.6, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Normal, duration: 0.6, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: true, show: true)
     }
     
     // Full options
     
     func showAlertSuccess(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, duration: NSTimeInterval, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Success, duration: duration, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Success, duration: duration, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
     }
     
     func showAlertInfo(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, duration: NSTimeInterval, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Info, duration: duration, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Info, duration: duration, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
     }
     
     func showAlertWarning(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, duration: NSTimeInterval, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Warning, duration: duration, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Warning, duration: duration, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
     }
     
     func showAlertError(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, duration: NSTimeInterval, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Error, duration: duration, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Error, duration: duration, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
     }
     
     func showAlertNotice(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, duration: NSTimeInterval, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Notice, duration: duration, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Notice, duration: duration, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
     }
     
     func showAlertNormal(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, duration: NSTimeInterval, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool) {
-        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Normal, duration: duration, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Normal, duration: duration, inputTitles: nil, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
     }
     
-    private func setupAlertWithTitle(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, alertViewStyle: DVAlertViewStyle, duration: NSTimeInterval, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool, show: Bool) {
+    // Extend option
+    
+    func showAlertInputForm(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, duration: NSTimeInterval, inputTitles: [String]?, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool) {
+        setupAlertWithTitle(target: target, delegate: delegate, title: title, subTitle: subTitle, alertViewStyle: .Info, duration: duration, inputTitles: inputTitles, cancelButtonTitle: cancelButtonTitle, otherButtonsTitles: otherButtonsTitles, animate: animate, show: true)
+        
+    }
+    
+    private func setupInputForm(inputTitles: [String]) {
+        let xPos = (alertBodyViewWidth - alertTitleWidth)/2
+        let yPos = CGRectGetMaxY(alertSubTitleTextView.frame) + distanceAlertSubTitleTextViewAndInputForm
+        let width = inputFieldWidth
+        let height = (inputFieldHeight * CGFloat(inputTitles.count)) + (distanceInputFieldAndInputField * CGFloat(inputTitles.count + 1))
+        let newInputForm = UIView()
+        newInputForm.frame = CGRectMake(xPos, yPos, width, height)
+        newInputForm.backgroundColor = UIColor.clearColor()
+        
+        alertBodyView.addSubview(newInputForm)
+        inputForm = newInputForm
+        
+        inputFields = [DVAlertViewTextField]()
+        
+        for title in inputTitles {
+            addInputFieldWithTitle(title)
+        }
+        
+        let valueChange: CGFloat = distanceAlertSubTitleTextViewAndInputForm + height + distanceInputFormAndButton - distanceAlertSubTitleTextViewAndButton
+        for button in alertButtons {
+            button.center = CGPoint(x: button.center.x, y: button.center.y + valueChange)
+        }
+        addNewValueToBodyViewHeightWithValue(valueChange)
+    }
+    
+    private func addInputFieldWithTitle(title: String) {
+        let count = inputFields?.count
+        let xPos: CGFloat = 0
+        let yPos = (distanceInputFieldAndInputField*CGFloat(count!+1)) + (inputFieldHeight * CGFloat(count!))
+        let inputField = DVAlertViewTextField(frame: CGRect(x: xPos, y: yPos, width: inputFieldWidth, height: inputFieldHeight))
+        inputField.setPlaceholderString(title)
+        inputForm?.addSubview(inputField)
+        inputFields?.append(inputField)
+    }
+    
+    private func setupAlertWithTitle(target target: UIViewController, delegate: DVAlertViewControllerDelegate?, title: String, subTitle: String, alertViewStyle: DVAlertViewStyle, duration: NSTimeInterval, inputTitles: [String]?, cancelButtonTitle: String, otherButtonsTitles: [String]?, animate: Bool, show: Bool) {
         
         if alertViewCurrentState == .Show { return }
         if delegate != nil { self.delegate = delegate }
@@ -320,6 +437,10 @@ class DVAlertViewController: UIViewController {
         }
         
         addButtonWithTitle(title: cancelButtonTitle, buttonType: .Cancel, alertViewStyle: alertViewStyle)
+        
+        if inputTitles != nil {
+            setupInputForm(inputTitles!)
+        }
         
         self.target = target
         
